@@ -1,12 +1,14 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from users.forms import EmployeeForms
 from django.contrib import messages
+
+from users.forms import EmployeeForms
+
 
 def index(request):
     return render(request, 'shared/base.html')
 
-def employeeRegister(request):
+def employee_register(request):
     employee_register_form = EmployeeForms()
     if request.method == 'POST':
         employee_register_form = EmployeeForms(request.POST)
