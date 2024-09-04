@@ -1,6 +1,7 @@
 from django import forms
+from django.contrib.auth.models import User
 
-from users.models import Employee
+from users.models import Employee,UserData
 
 class EmployeeForms(forms.ModelForm):
     class Meta:
@@ -73,3 +74,61 @@ class EmployeeForms(forms.ModelForm):
                 }
             ),
         }
+class UserCreationForm(forms.ModelForm):
+    username = forms.CharField(
+        max_length=150,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control', 
+                'placeholder': 'Nome de usuário',
+                'type':"text",
+                'id':"floatingInput",
+                
+                
+            }
+            
+        )
+    )
+    email = forms.EmailField(
+        widget=forms.EmailInput(
+            attrs={
+                'class': 'form-control', 
+                'placeholder': 'Email',
+                'type':"email",
+                'id':"floatingInput",                
+            }
+        )
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                'class': 'form-control', 
+                'placeholder': 'Senha',        
+                'type':"password",
+                'id':"floatingInput",                
+                }
+            )
+    )
+    employee = forms.ModelChoiceField(
+        queryset=Employee.objects.all(),
+        widget=forms.Select(
+            attrs={
+                'class': 'form-control', 
+                'placeholder': 'Selecione o Empregado',
+                'id':"floatingInput", 
+                }
+            ),
+        label='Empregado',
+        to_field_name='company_email'  # Mostrar o `company_email` no dropdown
+    )
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password']
+
+    def save(self, commit=True):
+        user = super(UserCreationForm, self).save(commit=False)
+        user.set_password(self.cleaned_data['password'])  # Configurar a senha corretamente
+        if commit:
+            user.save()
+        return user

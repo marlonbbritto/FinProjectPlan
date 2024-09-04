@@ -9,7 +9,7 @@
           <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Home</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Link</a>
@@ -22,7 +22,7 @@
                   Área do Administrador
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Cadastro de usuários</a></li>
+                  <li><a class="dropdown-item" href="{% url 'user_register'%}">Cadastro de usuários</a></li>
                   <li><a class="dropdown-item" href="{% url 'employeeRegister' %}">Cadastro de Colaboradores</a></li>
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" href="#">Something else here</a></li>
@@ -30,6 +30,9 @@
               </li>
             </ul>                
           </div>
+          {% for message in messages %}
+            <p class="alert alert-light p-1 m-0" role="alert"> {{message}} </p>
+          {% endfor %}
         </div>
       </nav>
 </header>
